@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using HackPR___NewsBot.Commands;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
@@ -13,26 +15,62 @@ namespace HackPR___NewsBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private const string Key = "449a24ecf4be482da238d3d38563b4a5";
+        private readonly List<Command> _commands;
+
+        public MessagesController()
+        {
+            _commands = new List<Command>
+            {
+                new TestCommand(Key)
+            };
+        }
+
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message)
+            var message = activity.Text.ToLower();
+            var answer = "Could not process your input.";
+            if (IsHelp(message))
             {
-                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                // calculate something for us to return
-                int length = (activity.Text ?? string.Empty).Length;
+                answer = Help();
+            }
+            foreach (var command in _commands)
+            {
+                if (command.Validate(message))
+                {
+                    answer = command.Execute(message);
+                    return await Response(activity, answer);
+                }
+            }
+            return await Response(activity, answer);
+        }
 
-                // return our reply to the user
-                Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
-                await connector.Conversations.ReplyToActivityAsync(reply);
-            }
-            else
+        private string Help()
+        {
+            return _commands.Aggregate("I can do the following:\n", (current, command) => current + (command.ToString() + "\n"));
+        }
+
+        private bool IsHelp(string message)
+        {
+            if (message.ToLower().StartsWith("help") || message.ToLower().StartsWith("what can you do"))
             {
-                HandleSystemMessage(activity);
+                return true;
             }
+            return false;
+        }
+
+        private async Task<HttpResponseMessage> Response(Activity activity, string answer)
+        {
+            ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+            var replyMessage = activity.CreateReply();
+            replyMessage.Recipient = activity.From;
+            replyMessage.Type = ActivityTypes.Message;
+            replyMessage.Text = answer;
+            await connector.Conversations.ReplyToActivityAsync(replyMessage);
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
@@ -57,7 +95,7 @@ namespace HackPR___NewsBot
             }
             else if (message.Type == ActivityTypes.Typing)
             {
-                // Handle knowing tha the user is typing
+                // Handle knowing that the user is typing
             }
             else if (message.Type == ActivityTypes.Ping)
             {
