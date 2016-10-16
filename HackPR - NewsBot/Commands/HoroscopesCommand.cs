@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
+using HackPR___NewsBot.Entities;
+using Newtonsoft.Json;
 
 namespace HackPR___NewsBot.Commands
 {
@@ -15,7 +19,72 @@ namespace HackPR___NewsBot.Commands
         }
         public override string Execute(string message)
         {
-            throw new NotImplementedException();
+            var client = new HttpClient();
+            var queryString = "https://gfrmservices.azure-api.net/end/v3/horoscope";
+
+            // Request headers
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
+            var response = client.GetAsync(queryString).Result;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<HoroscopeArticles>(json);
+
+                if (message.Equals("horoscope") || message.Equals("horoscopes"))
+                {
+                    return result.ToString();
+                }
+                else if (message.Contains("aquarius"))
+                {
+                    return result.horoscopes[0].ToString();
+                }
+                else if (message.Contains("aries"))
+                {
+                    return result.horoscopes[1].ToString();
+                }
+                else if (message.Contains("taurus"))
+                {
+                    return result.horoscopes[2].ToString();
+                }
+                else if (message.Contains("gemini"))
+                {
+                    return result.horoscopes[3].ToString();
+                }
+                else if (message.Contains("cancer"))
+                {
+                    return result.horoscopes[4].ToString();
+                }
+                else if (message.Contains("leo"))
+                {
+                    return result.horoscopes[5].ToString();
+                }
+                else if (message.Contains("virgo"))
+                {
+                    return result.horoscopes[6].ToString();
+                }
+                else if (message.Contains("libra"))
+                {
+                    return result.horoscopes[7].ToString();
+                }
+                else if (message.Contains("escorpio"))
+                {
+                    return result.horoscopes[8].ToString();
+                }
+                else if (message.Contains("sagittarius"))
+                {
+                    return result.horoscopes[9].ToString();
+                }
+                else if (message.Contains("capricorn"))
+                {
+                    return result.horoscopes[10].ToString();
+                }
+                else if (message.Contains("pisces"))
+                {
+                    return result.horoscopes[11].ToString();
+                }
+                return result.ToString();
+            }
+            return "Error occurred while executing command.\n";
         }
 
         public override string ToString()

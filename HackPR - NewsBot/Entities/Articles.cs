@@ -17,4 +17,24 @@ namespace HackPR___NewsBot.Entities
             return articles.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + "\n"));
         }
     }
+
+    public class LatestArticles
+    {
+        public News[] latest { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+    }
+
+    public class HoroscopeArticles
+    {
+        public Horoscopes[] horoscopes { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+    }
 }
