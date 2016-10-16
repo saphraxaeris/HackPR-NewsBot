@@ -22,7 +22,7 @@ namespace HackPR___NewsBot.Commands
             message = message.Replace("opinions", "");
             message = message.Replace("opinion", "");
 
-            var tags = message.Replace(" ", ",");
+            var tags = message.Replace(", ", " ").Replace(" ", ",");
 
             var client = new HttpClient();
             var queryString = "https://gfrmservices.azure-api.net/end/v3/Opinion?limit=0&page=1&tags=" + tags;
@@ -33,15 +33,15 @@ namespace HackPR___NewsBot.Commands
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var json = response.Content.ReadAsStringAsync().Result;
-                var result = JsonConvert.DeserializeObject<NewsArticles>(json);
+                var result = JsonConvert.DeserializeObject<OpinionArticles>(json);
                 return result.ToString();
             }
-            return "Error occurred while executing command.\n";
+            return $"Error occurred while executing command.{General.NewLine()}";
         }
 
         public override string ToString()
         {
-            return "Opinions: Gives a list of the top ten Opinions Article.\nExample: Opinions of {tags}";
+            return $"Opinions: Gives a list of the top ten Opinions Article.{General.NewLine()}Example: Opinions of {{tags}}";
         }
 
         public override bool Validate(string message)

@@ -7,15 +7,15 @@ namespace HackPR___NewsBot.Entities
 {
     public class ivu_loto
     {
-        public DateTime date { get; set; }
+        public string date { get; set; }
         public ivu_loto_detail[] ivulotodetail { get; set; }
 
         public override string ToString()
         {
-            var result = $"Date: {date.ToShortDateString()}\n";
+            var result = $"Date: {date.Substring(0, 10)}{General.NewLine()}";
             foreach (var detail in ivulotodetail)
             {
-                result += $"{detail.ToString()}\n";
+                result += $"{detail.ToString()}{General.NewLine()}";
             }
             return result;
         }

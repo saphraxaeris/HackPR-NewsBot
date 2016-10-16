@@ -15,7 +15,7 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return $"{sign} ({from_date.ToShortDateString()} - {to_date.ToShortDateString()})\n{horoscope.ToString()}\n";
+            return $"{sign} ({from_date.ToShortDateString()} - {to_date.ToShortDateString()}){General.NewLine()}{horoscope.ToString()}{General.NewLine()}";
         }
     }
 }

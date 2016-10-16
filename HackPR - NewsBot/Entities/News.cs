@@ -14,7 +14,7 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return $"{title}\nhttp://www.elnuevodia.com{url}\n";
+            return $"{title}{General.NewLine()}http://www.elnuevodia.com{url}{General.NewLine()}";
         }
     }
 }

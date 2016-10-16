@@ -36,60 +36,60 @@ namespace HackPR___NewsBot.Commands
                 }
                 else if (message.Contains("aquarius"))
                 {
-                    return result.acuario.ToString();
+                    return result.horoscopes.acuario.ToString();
                 }
                 else if (message.Contains("aries"))
                 {
-                    return result.aries.ToString();
+                    return result.horoscopes.aries.ToString();
                 }
                 else if (message.Contains("taurus"))
                 {
-                    return result.tauro.ToString();
+                    return result.horoscopes.tauro.ToString();
                 }
                 else if (message.Contains("gemini"))
                 {
-                    return result.geminis.ToString();
+                    return result.horoscopes.geminis.ToString();
                 }
                 else if (message.Contains("cancer"))
                 {
-                    return result.cancer.ToString();
+                    return result.horoscopes.cancer.ToString();
                 }
                 else if (message.Contains("leo"))
                 {
-                    return result.leo.ToString();
+                    return result.horoscopes.leo.ToString();
                 }
                 else if (message.Contains("virgo"))
                 {
-                    return result.virgo.ToString();
+                    return result.horoscopes.virgo.ToString();
                 }
                 else if (message.Contains("libra"))
                 {
-                    return result.libra.ToString();
+                    return result.horoscopes.libra.ToString();
                 }
                 else if (message.Contains("escorpio"))
                 {
-                    return result.escorpio.ToString();
+                    return result.horoscopes.escorpio.ToString();
                 }
                 else if (message.Contains("sagittarius"))
                 {
-                    return result.sagitario.ToString();
+                    return result.horoscopes.sagitario.ToString();
                 }
                 else if (message.Contains("capricorn"))
                 {
-                    return result.capricornio.ToString();
+                    return result.horoscopes.capricornio.ToString();
                 }
                 else if (message.Contains("pisces"))
                 {
-                    return result.piscis.ToString();
+                    return result.horoscopes.piscis.ToString();
                 }
                 return result.ToString();
             }
-            return "Error occurred while executing command.\n";
+            return $"Error occurred while executing command.{General.NewLine()}";
         }
 
         public override string ToString()
         {
-            return "Horoscopes: Gives the horoscope reading of the day.\nExample: Horoscope of {sign}";
+            return $"Horoscopes: Gives the horoscope reading of the day.{General.NewLine()}Example: Horoscope of {{sign}}";
         }
 
         public override bool Validate(string message)

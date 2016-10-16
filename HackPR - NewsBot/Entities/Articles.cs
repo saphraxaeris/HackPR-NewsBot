@@ -14,7 +14,7 @@ namespace HackPR___NewsBot.Entities
         public override string ToString()
         {
             var index = 1;
-            return articles.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + "\n"));
+            return articles.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + General.NewLine()));
         }
     }
 
@@ -25,33 +25,17 @@ namespace HackPR___NewsBot.Entities
         public override string ToString()
         {
             var index = 1;
-            return latest.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + "\n"));
+            return latest.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + General.NewLine()));
         }
     }
 
     public class HoroscopeArticles
     {
-        public Horoscopes aries { get; set; }
-        public Horoscopes tauro { get; set; }
-        public Horoscopes geminis { get; set; }
-        public Horoscopes cancer { get; set; }
-        public Horoscopes leo { get; set; }
-        public Horoscopes virgo { get; set; }
-        public Horoscopes libra { get; set; }
-        public Horoscopes escorpio { get; set; }
-        public Horoscopes sagitario { get; set; }
-        public Horoscopes capricornio { get; set; }
-        public Horoscopes acuario { get; set; }
-        public Horoscopes piscis { get; set; }
-
+        public HoroscopeData horoscopes { get; set; }
 
         public override string ToString()
         {
-            string result = "";
-            result += aries.ToString() + tauro.ToString() + geminis.ToString() + cancer.ToString() + leo.ToString() +
-                      virgo.ToString() + libra.ToString() + escorpio.ToString() + sagitario.ToString() +
-                      capricornio.ToString() + acuario.ToString() + piscis.ToString();
-            return result;
+            return horoscopes.ToString();
         }
     }
 
@@ -62,7 +46,7 @@ namespace HackPR___NewsBot.Entities
         public override string ToString()
         {
             var index = 1;
-            return opinion.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + "\n"));
+            return opinion.Aggregate("", (current, news) => current + (index++ + ". " + news.ToString() + General.NewLine()));
         }
     }
 
@@ -72,7 +56,7 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return lottery.ToString();
+            return lottery.ToString() + General.NewLine();
         }
     }
 
@@ -83,7 +67,7 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return feed.ToString() + "\n";
+            return feed.ToString() + General.NewLine();
         }
     }
 }

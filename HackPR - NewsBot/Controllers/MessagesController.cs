@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Xml;
 using HackPR___NewsBot.Commands;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
@@ -22,7 +23,13 @@ namespace HackPR___NewsBot
         {
             _commands = new List<Command>
             {
-                new TestCommand(Key)
+                new HoroscopesCommand(Key),
+                new LatestCommand(Key),
+                new LotteryCommand(Key),
+                new OpinionsCommand(Key),
+                new SocialFeedCommand(Key),
+                new NewsCommand(Key),
+                //new TestCommand(Key)
             };
         }
 
@@ -34,6 +41,11 @@ namespace HackPR___NewsBot
         {
             var message = activity.Text.ToLower();
             var answer = "Could not process your input.";
+            if (GenericMessages(message) != null)
+            {
+                answer = GenericMessages(message);
+                return await Response(activity, answer);
+            }
             if (IsHelp(message))
             {
                 answer = Help();
@@ -49,9 +61,50 @@ namespace HackPR___NewsBot
             return await Response(activity, answer);
         }
 
+        private string GenericMessages(string message)
+        {
+            message = message.ToLower().Replace(".", "");
+            message = message.Replace("!", "");
+            message = message.Replace("?", "");
+            message = message.Replace(",", "");
+
+            if (message.Equals("hi") || message.Equals("hello"))
+            {
+                return "Hello!" + General.NewLine();
+            }
+            else if (message.Equals("who are you"))
+            {
+                return "I am the El Nuevo Dia News Bot! I exist to provide you with up to date news anytime you need!" + General.NewLine();
+            }
+            else if (message.Equals("that's pretty cool"))
+            {
+                return "Thanks! I think you're pretty cool as well." + General.NewLine();
+            }
+            else if (message.Equals("can you do anything else"))
+            {
+                return "Not at the moment." + General.NewLine();
+            }
+            else if (message.Equals("let's try some commands"))
+            {
+                return "Ready for action!" + General.NewLine();
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
         private string Help()
         {
-            return _commands.Aggregate("I can do the following:\n", (current, command) => current + (command.ToString() + "\n"));
+            var index = 1;
+            var result = "I can do the following:" + General.NewLine();
+            foreach (var command in _commands)
+            {
+                result += index + ". " + command.ToString() + General.NewLine();
+                index++;
+            }
+            return result;
         }
 
         private bool IsHelp(string message)

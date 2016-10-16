@@ -12,7 +12,7 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return $"{title}\n{path}\n";
+            return $"{title}{General.NewLine()}{path}{General.NewLine()}";
         }
     }
 }

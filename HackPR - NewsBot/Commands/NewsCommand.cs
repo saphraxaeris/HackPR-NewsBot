@@ -24,7 +24,7 @@ namespace HackPR___NewsBot.Commands
             message = message.Replace("latest news", "");
             message = message.Replace("latest ", "");
             message = message.Replace(" news", "");
-            var tags = message.Replace(" ", ",");
+            var tags = message.Replace(", ", " ").Replace(" ", ",");
 
             var client = new HttpClient();
             var queryString = "https://gfrmservices.azure-api.net/end/v3/news/?limit=0&page=1&&tags=" + tags;
@@ -38,12 +38,12 @@ namespace HackPR___NewsBot.Commands
                 var result = JsonConvert.DeserializeObject<NewsArticles>(json);
                 return result.ToString();
             }
-            return "Error occurred while executing command.\n";
+            return $"Error occurred while executing command.{General.NewLine()}";
         }
 
         public override string ToString()
         {
-            return "News: Returns a list of top ten news.\nExample: News about {tags}";
+            return $"News: Returns a list of top ten news.{General.NewLine()}Example: News about {{tags}}";
         }
 
         public override bool Validate(string message)

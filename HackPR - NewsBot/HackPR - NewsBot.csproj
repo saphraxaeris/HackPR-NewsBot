@@ -129,9 +129,18 @@
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Entities\Articles.cs" />
+    <Compile Include="Entities\Feed.cs" />
     <Compile Include="Entities\Horoscope.cs" />
+    <Compile Include="Entities\HoroscopeData.cs" />
     <Compile Include="Entities\Horoscopes.cs" />
+    <Compile Include="Entities\ivu_loto.cs" />
+    <Compile Include="Entities\ivu_loto_detail.cs" />
+    <Compile Include="Entities\Lotteries.cs" />
+    <Compile Include="Entities\Lottery.cs" />
     <Compile Include="Entities\News.cs" />
+    <Compile Include="Entities\Pega.cs" />
+    <Compile Include="Entities\SocialFeed.cs" />
+    <Compile Include="General.cs" />
     <Compile Include="GFRBot.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -140,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\hackpr-bot.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

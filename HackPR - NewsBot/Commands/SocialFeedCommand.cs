@@ -30,12 +30,12 @@ namespace HackPR___NewsBot.Commands
                 var result = JsonConvert.DeserializeObject<SocialFeedArticles>(json);
                 return result.ToString();
             }
-            return "Error occurred while executing command.\n";
+            return $"Error occurred while executing command.{General.NewLine()}";
         }
 
         public override string ToString()
         {
-            return "Social Feed: Gives the most shared information on Social.\nExample: Social Feed";
+            return $"Social Feed: Gives the most shared information on Social.{General.NewLine()}Example: Social Feed";
 
         }
 

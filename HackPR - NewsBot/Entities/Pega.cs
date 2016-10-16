@@ -9,11 +9,11 @@ namespace HackPR___NewsBot.Entities
     {
         public string winner { get; set; }
         public string type { get; set; }
-        public DateTime date { get; set; }
+        public string date { get; set; }
 
         public override string ToString()
         {
-            return $"{date.ToShortDateString()} - Winner: {winner} - Type: {type}";
+            return $"{date.Substring(0, 10)} - Winner: {winner} - Type: {type}";
         }
     }
 }

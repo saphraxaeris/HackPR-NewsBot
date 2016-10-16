@@ -35,44 +35,44 @@ namespace HackPR___NewsBot.Commands
                 }
                 else if(message.Contains("traditional"))
                 {
-                    result.lottery.Tradicional();
+                    return result.lottery.Tradicional();
                 }
                 else if (message.Contains("loto"))
                 {
-                    result.lottery.Loto();
+                    return result.lottery.Loto();
                 }
                 else if (message.Contains("revancha"))
                 {
-                    result.lottery.Revancha();
+                    return result.lottery.Revancha();
                 }
                 else if (message.Contains("pega 2") || message.Contains("pega2"))
                 {
-                    result.lottery.Pega2();
+                    return result.lottery.Pega2();
                 }
                 else if (message.Contains("pega 3") || message.Contains("pega3"))
                 {
-                    result.lottery.Pega3();
+                    return result.lottery.Pega3();
                 }
                 else if (message.Contains("pega 4") || message.Contains("pega4"))
                 {
-                    result.lottery.Pega4();
+                    return result.lottery.Pega4();
                 }
                 else if (message.Contains("ivu loto") || message.Contains("ivuloto"))
                 {
-                    result.lottery.IvuLoto();
+                    return result.lottery.IvuLoto();
                 }
             }
-            return "Error occurred while executing command.\n";
+            return $"Error occurred while executing command.{General.NewLine()}";
         }
 
         public override string ToString()
         {
-            return "LotteryCommand: Gives a list of the lottery results.\nExample: Lottery {tag} Results";
+            return $"LotteryCommand: Gives a list of the lottery results.{General.NewLine()}Example: Lottery {{tag}} Results";
         }
 
         public override bool Validate(string message)
         {
-            message = message.ToLower();
+            message = message.ToLower().Replace("winning numbers", "").Trim();
             var check1 = message.Equals("lottery");
 
             var check2 = message.Equals("lottery tradicional");

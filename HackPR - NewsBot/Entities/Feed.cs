@@ -14,7 +14,7 @@ namespace HackPR___NewsBot.Entities
             var result = "";
             foreach (var story in stories)
             {
-                result += $"{index++}. {story.ToString()}\n";
+                result += $"{index++}. {story.ToString()}{General.NewLine()}";
             }
             return result;
         }

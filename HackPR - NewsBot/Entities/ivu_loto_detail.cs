@@ -14,7 +14,7 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return $"Winner: {winner} - City: {city} - Commerce: {commerce} - Award: {award}\n";
+            return $"Winner: {winner} - City: {city} - Commerce: {commerce} - Award: {award}{General.NewLine()}";
         }
     }
 }

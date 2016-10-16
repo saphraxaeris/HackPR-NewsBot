@@ -19,7 +19,7 @@ namespace HackPR___NewsBot.Commands
         public override string Execute(string message)
         {
             var client = new HttpClient();
-            var queryString = "https://gfrmservices.azure-api.net/end/v3/news/?limit=0&page=1&&tags=" + tags;
+            var queryString = "https://gfrmservices.azure-api.net/end/v3/latest?limit=0";
 
             // Request headers
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
@@ -30,18 +30,18 @@ namespace HackPR___NewsBot.Commands
                 var result = JsonConvert.DeserializeObject<LatestArticles>(json);
                 return result.ToString();
             }
-            return "Error occurred while executing command.\n";
+            return $"Error occurred while executing command.{General.NewLine()}";
         }
 
         public override string ToString()
         {
-            return "Latest: Gives the latest everything.\nExample: Latest everything";
+            return $"Latest: Gives the latest everything.{General.NewLine()}Example: Latest news about anything";
         }
 
         public override bool Validate(string message)
         {
-            message = message.ToLower();
-            var check1 = message.Equals("latest everything");
+            message = message.ToLower().Replace(".", "");
+            var check1 = message.Equals("latest news about anything");
 
             return check1;
 

@@ -16,7 +16,7 @@ namespace HackPR___NewsBot.Entities
             foreach(var winner in winners) {
                 result += winner + ", ";
             }
-            return result.Substring(0, result.Length-2) + "\n";
+            return result.Substring(0, result.Length-2) + General.NewLine();
         }
     }
     
