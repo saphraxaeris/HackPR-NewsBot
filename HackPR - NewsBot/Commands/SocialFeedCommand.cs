@@ -19,7 +19,7 @@ namespace HackPR___NewsBot.Commands
         public override string Execute(string message)
         {
             var client = new HttpClient();
-            var queryString = "https://gfrmservices.azure-api.net/end/v3/news/?limit=0&page=1&&tags=" + tags;
+            var queryString = "https://gfrmservices.azure-api.net/end/v3/social/feed";
 
             // Request headers
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
