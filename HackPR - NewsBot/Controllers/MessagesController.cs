@@ -17,11 +17,7 @@ namespace HackPR___NewsBot
     public class MessagesController : ApiController
     {
         private const string Key = "449a24ecf4be482da238d3d38563b4a5";
-        private readonly List<Command> _commands;
-
-        public MessagesController()
-        {
-            _commands = new List<Command>
+        private readonly List<Command> _commands = new List<Command>
             {
                 new HoroscopesCommand(Key),
                 new LatestCommand(Key),
@@ -31,7 +27,20 @@ namespace HackPR___NewsBot
                 new NewsCommand(Key),
                 //new TestCommand(Key)
             };
-        }
+
+        //public MessagesController()
+        //{
+        //    _commands = new List<Command>
+        //    {
+        //        new HoroscopesCommand(Key),
+        //        new LatestCommand(Key),
+        //        new LotteryCommand(Key),
+        //        new OpinionsCommand(Key),
+        //        new SocialFeedCommand(Key),
+        //        new NewsCommand(Key),
+        //        //new TestCommand(Key)
+        //    };
+        //}
 
         /// <summary>
         /// POST: api/Messages
