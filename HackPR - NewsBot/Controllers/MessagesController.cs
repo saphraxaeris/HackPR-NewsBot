@@ -58,6 +58,7 @@ namespace HackPR___NewsBot
             if (IsHelp(message))
             {
                 answer = Help();
+                return await Response(activity, answer);
             }
             foreach (var command in _commands)
             {

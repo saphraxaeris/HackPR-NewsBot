@@ -67,7 +67,7 @@ namespace HackPR___NewsBot.Commands
 
         public override string ToString()
         {
-            return $"LotteryCommand: Gives a list of the lottery results.{General.NewLine()}Example: Lottery {{tag}} Results";
+            return $"Lottery: Gives a list of the lottery results.{General.NewLine()}Example: Lottery {{tag}}";
         }
 
         public override bool Validate(string message)
