@@ -109,17 +109,17 @@ namespace HackPR___NewsBot.Commands
             var check12 = message.Equals("capricorn");
             var check13 = message.Equals("pisces");
             var check14 = message.Contains("horoscope") && message.Contains("aquarius") && message.Length == 18;
-            var check15 = message.Contains("horoscope") && message.Contains("aries") && message.Length == 14;
-            var check16 = message.Contains("horoscope") && message.Contains("taurus") && message.Length == 15;
-            var check17 = message.Contains("horoscope") && message.Contains("gemini") && message.Length == 15;
-            var check18 = message.Contains("horoscope") && message.Contains("cancer") && message.Length == 15;
-            var check19 = message.Contains("horoscope") && message.Contains("leo") && message.Length == 12;
-            var check20 = message.Contains("horoscope") && message.Contains("virgo") && message.Length == 14;
-            var check21 = message.Contains("horoscope") && message.Contains("libra") && message.Length == 14;
-            var check22 = message.Contains("horoscope") && message.Contains("escorpio") && message.Length == 17;
-            var check23 = message.Contains("horoscope") && message.Contains("sagittarius") && message.Length == 20;
-            var check24 = message.Contains("horoscope") && message.Contains("capricorn") && message.Length == 18;
-            var check25 = message.Contains("horoscope") && message.Contains("pisces") && message.Length == 15;
+            var check15 = message.Contains("horoscope") && message.Contains("aries") && message.Length == 15;
+            var check16 = message.Contains("horoscope") && message.Contains("taurus") && message.Length == 16;
+            var check17 = message.Contains("horoscope") && message.Contains("gemini") && message.Length == 16;
+            var check18 = message.Contains("horoscope") && message.Contains("cancer") && message.Length == 16;
+            var check19 = message.Contains("horoscope") && message.Contains("leo") && message.Length == 13;
+            var check20 = message.Contains("horoscope") && message.Contains("virgo") && message.Length == 15;
+            var check21 = message.Contains("horoscope") && message.Contains("libra") && message.Length == 15;
+            var check22 = message.Contains("horoscope") && message.Contains("escorpio") && message.Length == 18;
+            var check23 = message.Contains("horoscope") && message.Contains("sagittarius") && message.Length == 21;
+            var check24 = message.Contains("horoscope") && message.Contains("capricorn") && message.Length == 19;
+            var check25 = message.Contains("horoscope") && message.Contains("pisces") && message.Length == 16;
 
 
 

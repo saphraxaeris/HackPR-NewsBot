@@ -77,7 +77,7 @@ namespace HackPR___NewsBot.Entities
 
         public string IvuLoto()
         {
-            var result = $"Ivu Loto:{General.NewLine()}";
+            var result = $"Here is your result!{General.NewLine()}Ivu Loto:{General.NewLine()}";
             foreach (var ivu in ivu_loto)
             {
                 result += ivu.ToString() + $"{General.NewLine()}";

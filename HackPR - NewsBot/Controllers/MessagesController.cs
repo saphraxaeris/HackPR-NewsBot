@@ -80,11 +80,15 @@ namespace HackPR___NewsBot
 
             if (message.Equals("hi") || message.Equals("hello"))
             {
-                return "Hello!" + General.NewLine();
+                return "Hi! How are you?" + General.NewLine();
+            }
+            else if (message.Equals("good and you"))
+            {
+                return "I'm doing excellent! Thanks for asking!" + General.NewLine();
             }
             else if (message.Equals("who are you"))
             {
-                return "I am the El Nuevo Dia News Bot! I exist to provide you with up to date news anytime you need!" + General.NewLine();
+                return "I am the El Nuevo Dia News Bot! I exist to provide you with up to date news anytime you need!" + General.NewLine() + "For more information on what I can do just ask." + General.NewLine();
             }
             else if (message.Equals("that's pretty cool"))
             {
@@ -92,7 +96,7 @@ namespace HackPR___NewsBot
             }
             else if (message.Equals("can you do anything else"))
             {
-                return "Not at the moment." + General.NewLine();
+                return "Not at the moment. Hopefully soon I'll have a lot more commands to perform." + General.NewLine();
             }
             else if (message.Equals("let's try some commands"))
             {
@@ -108,7 +112,7 @@ namespace HackPR___NewsBot
         private string Help()
         {
             var index = 1;
-            var result = "I can do the following:" + General.NewLine();
+            var result = "I can currently perform the following commands:" + General.NewLine();
             foreach (var command in _commands)
             {
                 result += index + ". " + command.ToString() + General.NewLine();
@@ -119,7 +123,7 @@ namespace HackPR___NewsBot
 
         private bool IsHelp(string message)
         {
-            if (message.ToLower().StartsWith("help") || message.ToLower().StartsWith("what can you do"))
+            if (message.ToLower().StartsWith("help") || message.ToLower().StartsWith("help me") || message.ToLower().StartsWith("what can you do"))
             {
                 return true;
             }
