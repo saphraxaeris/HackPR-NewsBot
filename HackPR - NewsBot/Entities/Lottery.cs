@@ -10,13 +10,13 @@ namespace HackPR___NewsBot.Entities
         public string date { get; set; }
         public string[] winners { get; set; }
 
-        public string ToString(string name)
+        public override string ToString()
         {
-            var result = name + ":\n";
+            var result = "Date: " + date + " - Winners: ";
             foreach(var winner in winners) {
-                result += winner + "\n";
+                result += winner + ", ";
             }
-            return name + ":\n";
+            return result.Substring(0, result.Length-2) + "\n";
         }
     }
     

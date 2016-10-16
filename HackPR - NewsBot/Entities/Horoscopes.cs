@@ -12,5 +12,10 @@ namespace HackPR___NewsBot.Entities
         public DateTime from_date { get; set; }
         public DateTime to_date { get; set; }
         public Horoscope horoscope { get; set; }
+
+        public override string ToString()
+        {
+            return $"{sign} ({from_date.ToShortDateString()} - {to_date.ToShortDateString()})\n{horoscope.ToString()}\n";
+        }
     }
 }

@@ -14,7 +14,12 @@ namespace HackPR___NewsBot.Entities
 
         public override string ToString()
         {
-            return "";
+            string nums = "";
+            foreach (var num in lucky_nubers)
+            {
+                nums += num + ", ";
+            }
+            return $"Sacred Word: {sacred_word}\nLucky Numbers: {nums.Substring(0,lucky_nubers.Length+((lucky_nubers.Length-1)*2))}\n{text}\n";
         }
     }
 }

@@ -120,9 +120,17 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\HoroscopesCommand.cs" />
+    <Compile Include="Commands\LatestCommand.cs" />
+    <Compile Include="Commands\LotteryCommand.cs" />
+    <Compile Include="Commands\NewsCommand.cs" />
+    <Compile Include="Commands\OpinionsCommand.cs" />
+    <Compile Include="Commands\SocialFeedCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Entities\Articles.cs" />
+    <Compile Include="Entities\Horoscope.cs" />
+    <Compile Include="Entities\Horoscopes.cs" />
     <Compile Include="Entities\News.cs" />
     <Compile Include="GFRBot.cs" />
     <Compile Include="Global.asax.cs">

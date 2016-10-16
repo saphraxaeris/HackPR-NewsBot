@@ -36,51 +36,51 @@ namespace HackPR___NewsBot.Commands
                 }
                 else if (message.Contains("aquarius"))
                 {
-                    return result.horoscopes[0].ToString();
+                    return result.acuario.ToString();
                 }
                 else if (message.Contains("aries"))
                 {
-                    return result.horoscopes[1].ToString();
+                    return result.aries.ToString();
                 }
                 else if (message.Contains("taurus"))
                 {
-                    return result.horoscopes[2].ToString();
+                    return result.tauro.ToString();
                 }
                 else if (message.Contains("gemini"))
                 {
-                    return result.horoscopes[3].ToString();
+                    return result.geminis.ToString();
                 }
                 else if (message.Contains("cancer"))
                 {
-                    return result.horoscopes[4].ToString();
+                    return result.cancer.ToString();
                 }
                 else if (message.Contains("leo"))
                 {
-                    return result.horoscopes[5].ToString();
+                    return result.leo.ToString();
                 }
                 else if (message.Contains("virgo"))
                 {
-                    return result.horoscopes[6].ToString();
+                    return result.virgo.ToString();
                 }
                 else if (message.Contains("libra"))
                 {
-                    return result.horoscopes[7].ToString();
+                    return result.libra.ToString();
                 }
                 else if (message.Contains("escorpio"))
                 {
-                    return result.horoscopes[8].ToString();
+                    return result.escorpio.ToString();
                 }
                 else if (message.Contains("sagittarius"))
                 {
-                    return result.horoscopes[9].ToString();
+                    return result.sagitario.ToString();
                 }
                 else if (message.Contains("capricorn"))
                 {
-                    return result.horoscopes[10].ToString();
+                    return result.capricornio.ToString();
                 }
                 else if (message.Contains("pisces"))
                 {
-                    return result.horoscopes[11].ToString();
+                    return result.piscis.ToString();
                 }
                 return result.ToString();
             }

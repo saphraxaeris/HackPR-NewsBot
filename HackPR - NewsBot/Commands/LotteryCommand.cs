@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
+using HackPR___NewsBot.Entities;
+using Newtonsoft.Json;
 
 namespace HackPR___NewsBot.Commands
 {
@@ -14,7 +18,51 @@ namespace HackPR___NewsBot.Commands
         }
         public override string Execute(string message)
         {
-            throw new NotImplementedException();
+            var client = new HttpClient();
+            var queryString = "https://gfrmservices.azure-api.net/end/v3/lottery";
+
+            // Request headers
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
+            var response = client.GetAsync(queryString).Result;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<LotteryArticles>(json);
+
+                if (message.Replace(".", "").Equals("lottery"))
+                {
+                    return result.ToString();
+                }
+                else if(message.Contains("traditional"))
+                {
+                    result.lottery.Tradicional();
+                }
+                else if (message.Contains("loto"))
+                {
+                    result.lottery.Loto();
+                }
+                else if (message.Contains("revancha"))
+                {
+                    result.lottery.Revancha();
+                }
+                else if (message.Contains("pega 2") || message.Contains("pega2"))
+                {
+                    result.lottery.Pega2();
+                }
+                else if (message.Contains("pega 3") || message.Contains("pega3"))
+                {
+                    result.lottery.Pega3();
+                }
+                else if (message.Contains("pega 4") || message.Contains("pega4"))
+                {
+                    result.lottery.Pega4();
+                }
+                else if (message.Contains("ivu loto") || message.Contains("ivuloto"))
+                {
+                    result.lottery.IvuLoto();
+                }
+            }
+            return "Error occurred while executing command.\n";
         }
 
         public override string ToString()
@@ -30,9 +78,9 @@ namespace HackPR___NewsBot.Commands
             var check2 = message.Equals("lottery tradicional");
             var check3 = message.Equals("lottery revancha");
             var check4 = message.Equals("lottery loto");
-            var check5 = message.Equals("lottery pega2");
-            var check6 = message.Equals("lottery pega3");
-            var check7 = message.Equals("lottery pega4");
+            var check5 = message.Equals("lottery pega2") || message.Equals("lottery pega 2");
+            var check6 = message.Equals("lottery pega3") || message.Equals("lottery pega 3");
+            var check7 = message.Equals("lottery pega4") || message.Equals("lottery pega 4");
             var check8 = message.Equals("lottery ivu loto");
             var check9 = message.Equals("lottery ivuloto");
 
