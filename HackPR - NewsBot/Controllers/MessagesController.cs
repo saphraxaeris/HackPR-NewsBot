@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
-using System.Xml;
 using HackPR___NewsBot.Commands;
+using HackPR___NewsBot.Entities;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
@@ -24,51 +22,73 @@ namespace HackPR___NewsBot
                 new LotteryCommand(Key),
                 new OpinionsCommand(Key),
                 new SocialFeedCommand(Key),
-                new NewsCommand(Key),
-                //new TestCommand(Key)
+                new NewsCommand(Key)
             };
-
-        //public MessagesController()
-        //{
-        //    _commands = new List<Command>
-        //    {
-        //        new HoroscopesCommand(Key),
-        //        new LatestCommand(Key),
-        //        new LotteryCommand(Key),
-        //        new OpinionsCommand(Key),
-        //        new SocialFeedCommand(Key),
-        //        new NewsCommand(Key),
-        //        //new TestCommand(Key)
-        //    };
-        //}
+        private readonly HttpClient _client = new HttpClient
+        {
+            BaseAddress = new Uri("https://api.projectoxford.ai/luis/v1/application?id=688a5065-6e27-4c0d-9198-ed050801be89&subscription-key=eaa861ea5af64c198352759a48425d41&")
+        };
 
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
+
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            var message = activity.Text.ToLower();
-            var answer = "Could not process your input.";
-            if (GenericMessages(message) != null)
+            if (activity.Type == ActivityTypes.Message)
             {
-                answer = GenericMessages(message);
-                return await Response(activity, answer);
-            }
-            if (IsHelp(message))
-            {
-                answer = Help();
-                return await Response(activity, answer);
-            }
-            foreach (var command in _commands)
-            {
-                if (command.Validate(message))
+                var message = activity.Text.ToLower();
+                var answer = "Could not process your input.";
+                if (GenericMessages(message) != null)
                 {
-                    answer = command.Execute(message);
-                    return await Response(activity, answer);
+                    answer = GenericMessages(message);
+                    Response(activity, answer);
+                }
+                else if (IsHelp(message))
+                {
+                    answer = Help();
+                    Response(activity, answer);
+                }
+                else
+                {
+                    var luisResponse = await _client.GetAsync($"q={message}&timezoneOffset=-4.0");
+                    if (luisResponse.IsSuccessStatusCode)
+                    {
+                        var json = luisResponse.Content.ReadAsStringAsync().Result;
+                        var result = JsonConvert.DeserializeObject<LUIS_Result>(json);
+                        var index = -1;
+                        var maxScore = 0.0;
+                        for (var i = 0; i < result.intents.Length; i++)
+                        {
+                            if (!(result.intents[i].score*100 > maxScore)) continue;
+                            maxScore = result.intents[i].score*100;
+                            index = i;
+                        }
+                        if (result.intents[index].intent.Equals("None"))
+                        {
+                            answer = "I'm sorry, I couldn't interpret your message.";
+                        }
+                        else
+                        {
+                            foreach (var command in _commands)
+                            {
+                                if (!command.Validate(result.intents[index].intent)) continue;
+                                var paramter = command.ExtractParameter(result);
+                                answer = command.Execute(paramter);
+                                break;
+                            }
+                        }
+                        Response(activity, answer);
+                    }
                 }
             }
-            return await Response(activity, answer);
+            else
+            {
+                HandleSystemMessage(activity);
+            }
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
         }
 
         private string GenericMessages(string message)
@@ -121,7 +141,7 @@ namespace HackPR___NewsBot
             return result;
         }
 
-        private bool IsHelp(string message)
+        private static bool IsHelp(string message)
         {
             if (message.ToLower().StartsWith("help") || message.ToLower().StartsWith("help me") || message.ToLower().StartsWith("what can you do"))
             {
@@ -130,42 +150,37 @@ namespace HackPR___NewsBot
             return false;
         }
 
-        private async Task<HttpResponseMessage> Response(Activity activity, string answer)
+        private static async void Response(Activity activity, string answer)
         {
-            ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-            var replyMessage = activity.CreateReply();
-            replyMessage.Recipient = activity.From;
-            replyMessage.Type = ActivityTypes.Message;
-            replyMessage.Text = answer;
+            var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+            var replyMessage = activity.CreateReply(answer);
+
             await connector.Conversations.ReplyToActivityAsync(replyMessage);
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
         }
 
-        private Activity HandleSystemMessage(Activity message)
+
+        private static Activity HandleSystemMessage(Activity message)
         {
-            if (message.Type == ActivityTypes.DeleteUserData)
+            switch (message.Type)
             {
-                // Implement user deletion here
-                // If we handle user deletion, return a real message
-            }
-            else if (message.Type == ActivityTypes.ConversationUpdate)
-            {
-                // Handle conversation state changes, like members being added and removed
-                // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
-                // Not available in all channels
-            }
-            else if (message.Type == ActivityTypes.ContactRelationUpdate)
-            {
-                // Handle add/remove from contact lists
-                // Activity.From + Activity.Action represent what happened
-            }
-            else if (message.Type == ActivityTypes.Typing)
-            {
-                // Handle knowing that the user is typing
-            }
-            else if (message.Type == ActivityTypes.Ping)
-            {
+                case ActivityTypes.DeleteUserData:
+                    // Implement user deletion here
+                    // If we handle user deletion, return a real message
+                    break;
+                case ActivityTypes.ConversationUpdate:
+                    // Handle conversation state changes, like members being added and removed
+                    // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
+                    // Not available in all channels
+                    break;
+                case ActivityTypes.ContactRelationUpdate:
+                    // Handle add/remove from contact lists
+                    // Activity.From + Activity.Action represent what happened
+                    break;
+                case ActivityTypes.Typing:
+                    // Handle knowing that the user is typing
+                    break;
+                case ActivityTypes.Ping:
+                    break;
             }
 
             return null;
