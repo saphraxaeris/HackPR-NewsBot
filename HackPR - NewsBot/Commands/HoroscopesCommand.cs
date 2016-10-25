@@ -17,7 +17,7 @@ namespace HackPR___NewsBot.Commands
         {
             this.key = key;
         }
-        public override string Execute(string message)
+        public override string Execute(string parameter)
         {
             var client = new HttpClient();
             var queryString = "https://gfrmservices.azure-api.net/end/v3/horoscope";
@@ -30,59 +30,39 @@ namespace HackPR___NewsBot.Commands
                 var json = response.Content.ReadAsStringAsync().Result;
                 var result = JsonConvert.DeserializeObject<HoroscopeArticles>(json);
 
-                if (message.Equals("horoscope") || message.Equals("horoscopes"))
+                if (string.IsNullOrEmpty(parameter))
                 {
                     return result.ToString();
                 }
-                else if (message.Contains("aquarius"))
+                switch (parameter)
                 {
-                    return result.horoscopes.acuario.ToString();
+                    case "aries":
+                        return result.horoscopes.aries.ToString();
+                    case "taurus":
+                        return result.horoscopes.tauro.ToString();
+                    case "gemini":
+                        return result.horoscopes.geminis.ToString();
+                    case "cancer":
+                        return result.horoscopes.cancer.ToString();
+                    case "leo":
+                        return result.horoscopes.leo.ToString();
+                    case "virgo":
+                        return result.horoscopes.virgo.ToString();
+                    case "libro":
+                        return result.horoscopes.libra.ToString();
+                    case "scorpio":
+                        return result.horoscopes.escorpio.ToString();
+                    case "sagittarius":
+                        return result.horoscopes.sagitario.ToString();
+                    case "capricorn":
+                        return result.horoscopes.capricornio.ToString();
+                    case "aquarius":
+                        return result.horoscopes.acuario.ToString();
+                    case "pisces":
+                        return result.horoscopes.piscis.ToString();
+                    default:
+                        return $"Error occurred while executing command.{General.NewLine()}";
                 }
-                else if (message.Contains("aries"))
-                {
-                    return result.horoscopes.aries.ToString();
-                }
-                else if (message.Contains("taurus"))
-                {
-                    return result.horoscopes.tauro.ToString();
-                }
-                else if (message.Contains("gemini"))
-                {
-                    return result.horoscopes.geminis.ToString();
-                }
-                else if (message.Contains("cancer"))
-                {
-                    return result.horoscopes.cancer.ToString();
-                }
-                else if (message.Contains("leo"))
-                {
-                    return result.horoscopes.leo.ToString();
-                }
-                else if (message.Contains("virgo"))
-                {
-                    return result.horoscopes.virgo.ToString();
-                }
-                else if (message.Contains("libra"))
-                {
-                    return result.horoscopes.libra.ToString();
-                }
-                else if (message.Contains("escorpio"))
-                {
-                    return result.horoscopes.escorpio.ToString();
-                }
-                else if (message.Contains("sagittarius"))
-                {
-                    return result.horoscopes.sagitario.ToString();
-                }
-                else if (message.Contains("capricorn"))
-                {
-                    return result.horoscopes.capricornio.ToString();
-                }
-                else if (message.Contains("pisces"))
-                {
-                    return result.horoscopes.piscis.ToString();
-                }
-                return result.ToString();
             }
             return $"Error occurred while executing command.{General.NewLine()}";
         }
@@ -92,42 +72,29 @@ namespace HackPR___NewsBot.Commands
             return $"Horoscopes: Gives the horoscope reading of the day.{General.NewLine()}Example: Horoscope of {{sign}}";
         }
 
-        public override bool Validate(string message)
+        public override bool Validate(string intent)
         {
-            message = message.ToLower();
-            var check1 = message.StartsWith("horoscopes");
-            var check2 = message.Equals("aquarius");
-            var check3 = message.Equals("aries");
-            var check4 = message.Equals("taurus");
-            var check5 = message.Equals("gemini");
-            var check6 = message.Equals("cancer");
-            var check7 = message.Equals("leo");
-            var check8 = message.Equals("virgo");
-            var check9 = message.Equals("libra");
-            var check10= message.Equals("escorpio");
-            var check11 = message.Equals("sagittarius");
-            var check12 = message.Equals("capricorn");
-            var check13 = message.Equals("pisces");
-            var check14 = message.Contains("horoscope") && message.Contains("aquarius") && message.Length == 18;
-            var check15 = message.Contains("horoscope") && message.Contains("aries") && message.Length == 15;
-            var check16 = message.Contains("horoscope") && message.Contains("taurus") && message.Length == 16;
-            var check17 = message.Contains("horoscope") && message.Contains("gemini") && message.Length == 16;
-            var check18 = message.Contains("horoscope") && message.Contains("cancer") && message.Length == 16;
-            var check19 = message.Contains("horoscope") && message.Contains("leo") && message.Length == 13;
-            var check20 = message.Contains("horoscope") && message.Contains("virgo") && message.Length == 15;
-            var check21 = message.Contains("horoscope") && message.Contains("libra") && message.Length == 15;
-            var check22 = message.Contains("horoscope") && message.Contains("escorpio") && message.Length == 18;
-            var check23 = message.Contains("horoscope") && message.Contains("sagittarius") && message.Length == 21;
-            var check24 = message.Contains("horoscope") && message.Contains("capricorn") && message.Length == 19;
-            var check25 = message.Contains("horoscope") && message.Contains("pisces") && message.Length == 16;
+            return intent.Equals("Horoscope");
+        }
 
-
-
-            if (check1 || check2 || check3 || check4 || check5 || check6 || check7 || check8 || check9 || check10 || check11 || check12 || check13 || check14 || check15 ||check16 ||check17 || check18 || check19 || check20 || check21 || check22 || check23 || check24 || check25)
+        public override string ExtractParameter(LUIS_Result result)
+        {
+            if (result.entities == null)
             {
-                return true;
+                return null;
             }
-            return false;
+
+            var index = -1;
+            var maxScore = 0.0;
+            for (var i = 0; i < result.entities.Length; i++)
+            {
+                if (!result.entities[i].type.Equals("ZodiacSign") || !(result.entities[i].score * 100 > maxScore))
+                    continue;
+                maxScore = result.entities[i].score * 100;
+                index = i;
+            }
+
+            return index == -1 ? null : result.entities[index].entity.Replace(" ", "");
         }
     }
 }
